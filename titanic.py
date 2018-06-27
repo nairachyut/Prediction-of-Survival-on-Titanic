@@ -12,12 +12,12 @@ def main(train):
     del train['Embarked']
     del train['Ticket']
     
-    train.Sex = train.Sex.map({'male':1,'female':2})
+    train.Sex = train.Sex.map({'male':1, 'female':2})
     
     import re 
 
     def search_pattern(index):
-        return re.search(',.*[/.\b]',train.Name[index])[0][2:-1]
+        return re.search(',.*[/.\b]', train.Name[index])[0][2:-1]
 
     train['Social_name'] = [search_pattern(counter) for counter in range(train.shape[0])]
     
@@ -28,7 +28,7 @@ def main(train):
     for x in range(len(train.Social_name.unique())):
         a = train.Social_name.unique()[x]
         b = x
-        train.Social_name.replace({a:b},inplace = True)
+        train.Social_name.replace({a:b}, inplace = True)
 
     del train['Name']
 
@@ -45,7 +45,7 @@ def main(train):
         train.loc[((train.Pclass == train.Pclass.unique()[pclass[counter]]) &
                   (train.Sex == train.Sex.unique()[sex[counter]]) &
                   (train.Social_name == train.Social_name.unique()[social_name[counter]])),
-                  'Age'].fillna(value=grouped.values[counter])
+                  'Age'].fillna(value = grouped.values[counter])
 
     for x in range(len(train)):
         if pd.isnull(train.loc[x,'Cabin']):
